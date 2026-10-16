@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADAKAHPHOTO — Bulk Upload Foto Super Cepat</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #0f0f0f;
+            --card: #141414;
+            --border: #1f1f1f;
+            --accent: #00e676;
+            --accent2: #00c853;
+            --text: #e8e8e8;
+            --text2: #888;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0,230,118,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,230,118,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        
+        /* NAVBAR */
+        nav {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 18px;
+        }
+        .nav-brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .nav-links a {
+            color: var(--text2);
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        
+        /* HERO */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+        .hero-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 24px;
+            margin-bottom: 24px;
+            object-fit: cover;
+            box-shadow: 0 0 60px rgba(0,230,118,0.3);
+        }
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        .hero h1 .accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .tagline {
+            font-size: 20px;
+            color: var(--text2);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* STATS BAR */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin: 48px 0;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat .num {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+        .stat .lbl {
+            font-size: 12px;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        /* BUTTONS */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 40px rgba(0,230,118,0.4);
+        }
+        .btn-primary:hover {
+            background: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: 0 0 60px rgba(0,230,118,0.6);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        /* SECTION */
+        section { padding: 80px 0; position: relative; }
+        .section-label {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 40px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        .section-sub {
+            font-size: 16px;
+            color: var(--text2);
+            margin-bottom: 48px;
+            max-width: 600px;
+        }
+        
+        /* FEATURES GRID */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .feature {
+            background: var(--card);
+            padding: 32px;
+            transition: background 0.2s;
+        }
+        .feature:hover { background: var(--bg2); }
+        .feature .icon {
+            font-size: 28px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+        .feature h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .feature p {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+        
+        /* PRICING */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .price-card {
+            background: var(--card);
+            padding: 28px 20px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+        }
+        .price-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        .price-card.highlight {
+            background: linear-gradient(135deg, rgba(0,230,118,0.1), rgba(0,200,83,0.05));
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 40px rgba(0,230,118,0.2);
+        }
+        .price-card .badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #000;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 100px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .price-card .durasi {
+            font-size: 11px;
+            color: var(--text2);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .price-card .harga {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+        .price-card .kode {
+            font-size: 10px;
+            color: var(--text2);
+            margin-top: 8px;
+        }
+        .price-card.highlight .harga { color: var(--accent); }
+        
+        /* DOWNLOAD */
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+        .dl-card {
+            background: var(--card);
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .dl-card:hover {
+            border-color: var(--accent);
+        }
+        .dl-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .dl-card p {
+            font-size: 13px;
+            color: var(--text2);
+            margin-bottom: 20px;
+        }
+        .dl-card a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .dl-card a:hover {
+            background: var(--accent2);
+            transform: translateY(-2px);
+        }
+        
+        /* KONTAK */
+        .kontak-box {
+            background: var(--card);
+            padding: 48px 32px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .kontak-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        .kontak-box h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .kontak-box p {
+            color: var(--text2);
+            margin-bottom: 28px;
+        }
+        .kontak-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .kontak-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+            transition: all 0.2s;
+        }
+        .kontak-btn:hover { transform: translateY(-2px); }
+        .wa { background: #25D366; }
+        .ig { background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCB045); }
+        
+        /* FOOTER */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text2);
+            font-size: 13px;
+            margin-top: 80px;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero .tagline { font-size: 16px; }
+            .section-title { font-size: 28px; }
+            .stats-bar { gap: 24px; }
+            .stat .num { font-size: 24px; }
+            .nav-links a { margin-left: 12px; font-size: 12px; }
+        }
+        
+        /* ANIMASI */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero, section { animation: fadeIn 0.6s ease-out; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <div class="nav-brand">
+            <img src="logo.png" alt="ADAKAHPHOTO" onerror="this.style.display='none'">
+            <span>ADAKAHPHOTO</span>
+        </div>
+        <div class="nav-links">
+            <a href="#cerita">Cerita</a>
+            <a href="#status">Status</a>
+            <a href="#fitur">Fitur</a>
+            <a href="#harga">Harga</a>
+            <a href="#download">Download</a>
+            <a href="#kontak">Kontak</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <img src="logo.png" alt="ADAKAHPHOTO" class="hero-logo" onerror="this.style.display='none'">
+        <h1>Upload Foto <span class="accent">Super Cepat</span><br>ke Fotoyu</h1>
+        <p class="tagline">
+            <strong style="color: var(--accent);">Alat bantu upload foto independen</strong> — 
+            untuk puluhan, ratusan, hingga ratusan ribu file. 
+            Adaptive Concurrent, Auto-Retry, dan anti-duplikat.
+        </p>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="num">517</div>
+                <div class="lbl">File/Menit</div>
+            </div>
+            <div class="stat">
+                <div class="num">513×</div>
+                <div class="lbl">Lebih Cepat</div>
+            </div>
+            <div class="stat">
+                <div class="num">3</div>
+                <div class="lbl">Level Auto-Retry</div>
+            </div>
+            <div class="stat">
+                <div class="num">100%</div>
+                <div class="lbl">Sukses Rate</div>
+            </div>
+        </div>
+        
+        <div class="btn-group">
+            <a href="https://github.com/nananglamattiro/ADAKAHPHOTOproject/releases/latest" class="btn btn-primary">
+                ⬇️ Download Trial
+            </a>
+            <a href="#harga" class="btn btn-secondary">
+                💎 Lihat Harga
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CERITA -->
+<section class="story" id="cerita">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 48px;">
+            <span class="section-label">Cerita</span>
+            <h2 class="section-title">Kenapa Aplikasi Ini Tercipta?</h2>
+        </div>
+        
+        <div class="story-content">
+            <p>
+                Semua berawal dari jalanan. <span class="year">2021</span>
+                Saat pandemi COVID-19 masih menghantam, ketika banyak orang diam di rumah — 
+                saya justru turun ke jalan. Bukan karena tidak takut, tapi karena 
+                <strong>jalanan adalah tempat saya mencari nafkah halal</strong>.
+            </p>
+            
+            <p>
+                Waktu itu saya foto <strong>sport pinggir jalan</strong> — momen-momen 
+                kecil yang sering terlewat: orang jogging pagi, pengendara motor, 
+                pedagang pasar, anak-anak bermain. Semua saya abadikan. 
+                Satu per satu, dua per dua, hingga ribuan foto terupload ke galeri 
+                tempat penyimpanan foto online.
+            </p>
+            
+            <div class="quote">
+                "Saya bukan orang IT. Saya hanya fotografer jalanan yang 
+                capek upload foto manual satu per satu."
+            </div>
+            
+            <p>
+                Saya bergabung dengan komunitas fotografi: <strong>Hunting Pasar Makassar</strong>, 
+                <strong>Fujiners Makassar</strong>, <strong>InstaMakassar</strong>. 
+                Di situ saya belajar banyak — tentang komposisi, tentang cahaya, 
+                tentang momen. Tapi satu hal yang tidak pernah diajarkan: 
+                <strong>bagaimana upload ribuan foto dengan cepat</strong>.
+            </p>
+            
+            <p>
+                Setiap event, saya bisa bawa pulang 500-2000 foto. Upload manual 
+                satu per satu? Butuh berjam-jam. Belum lagi koneksi yang kadang 
+                putus di tengah jalan, atau server yang lambat. 
+                <strong>Capek. Sangat capek.</strong>
+            </p>
+            
+            <p>
+                <span class="year">2024</span> — ketika aplikasi penyimpanan foto 
+                mulai booming di Indonesia, saya lihat banyak developer membuat 
+                tools bantu upload. Tapi kebanyakan:
+            </p>
+            
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 8px 0 8px 28px; position: relative; color: var(--text2);">
+                    <span style="position: absolute; left: 0; color: #f44; font-weight: 800;">✗</span>
+                    Berbayar mahal (ratusan ribu per bulan)
+                </li>
+                <li style="padding: 8px 0 8px 28px; position: relative; color: var(--text2);">
+                    <span style="position: absolute; left: 0; color: #f44; font-weight: 800;">✗</span>
+                    Susah dipakai (butuh setting rumit)
+                </li>
+                <li style="padding: 8px 0 8px 28px; position: relative; color: var(--text2);">
+                    <span style="position: absolute; left: 0; color: #f44; font-weight: 800;">✗</span>
+                    Sering error (upload gagal, tidak ada retry)
+                </li>
+                <li style="padding: 8px 0 8px 28px; position: relative; color: var(--text2);">
+                    <span style="position: absolute; left: 0; color: #f44; font-weight: 800;">✗</span>
+                    Tidak cocok untuk Mac lama (2014)
+                </li>
+            </ul>
+            
+            <p>
+                Saya berpikir: <strong>"Kenapa tidak saya buat sendiri?"</strong>
+            </p>
+            
+            <p>
+                Saya mulai belajar coding dari nol. Debug sana-sini. Beli Mac bekas 
+                2014 karena budget terbatas. Test upload, gagal, perbaiki, test lagi. 
+                Berbulan-bulan. Sampai akhirnya <strong>ADAKAHPHOTOproject</strong> 
+                lahir — aplikasi upload foto yang:
+            </p>
+            
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 8px 0 8px 28px; position: relative; color: var(--text);">
+                    <span style="position: absolute; left: 0; color: var(--accent); font-weight: 800;">✓</span>
+                    Jalan di Mac lama (2014) — tidak perlu beli Mac baru
+                </li>
+                <li style="padding: 8px 0 8px 28px; position: relative; color: var(--text);">
+                    <span style="position: absolute; left: 0; color: var(--accent); font-weight: 800;">✓</span>
+                    Upload 500+ foto per menit — cepat, stabil
+                </li>
+                <li style="padding: 8px 0 8px 28px; position: relative; color: var(--text);">
+                    <span style="position: absolute; left: 0; color: var(--accent); font-weight: 800;">✓</span>
+                    Auto-retry kalau gagal — tidak perlu upload manual
+                </li>
+                <li style="padding: 8px 0 8px 28px; position: relative; color: var(--text);">
+                    <span style="position: absolute; left: 0; color: var(--accent); font-weight: 800;">✓</span>
+                    Harga terjangkau — mulai Rp 150.000/bulan
+                </li>
+            </ul>
+            
+            <p style="margin-top: 32px; font-size: 18px; color: var(--text); font-weight: 600; text-align: center;">
+                Dibuat oleh fotografer, untuk fotografer. <br>
+                Dari jalanan, untuk jalanan. 🛣️
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- BIO -->
+<section id="bio" style="background: var(--bg2);">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 48px;">
+            <span class="section-label">Tentang</span>
+            <h2 class="section-title">Siapa di Balik Ini?</h2>
+        </div>
+        
+        <div class="bio">
+            <div class="bio-photo">
+                <img src="nanang.jpg" alt="Nanang Lamattiro" onerror="this.src='logo.png'">
+            </div>
+            <div class="bio-text">
+                <h3>Nanang Lamattiro</h3>
+                <div class="role">Street Photographer · Developer ADAKAHPHOTO</div>
+                
+                <p>
+                    <strong>31 Januari 1991</strong> — lahir di Makassar, 
+                    tumbuh besar di jalanan. Sejak <span style="color: var(--accent); font-weight: 700;">2021</span>, 
+                    mulai serius di dunia fotografi sport pinggir jalan saat pandemi.
+                </p>
+                
+                <p>
+                    Bergabung dengan komunitas <strong>Hunting Pasar Makassar</strong>, 
+                    <strong>Fujiners Makassar</strong>, dan <strong>InstaMakassar</strong>. 
+                    Setiap hari turun ke jalan, mencari momen untuk diabadikan.
+                </p>
+                
+                <p>
+                    Bukan programmer asli — tapi bertekad buat aplikasi sendiri 
+                    setelah capek upload foto manual. Belajar coding dari nol, 
+                    debug, test, dan akhirnya <strong>ADAKAHPHOTOproject</strong> lahir.
+                </p>
+                
+                <p style="font-style: italic; color: var(--accent); font-weight: 600;">
+                    "Saya cari nafkah halal dari orang sehat, dan dari orang 
+                    yang ingin mengabadikan momen di jalan."
+                </p>
+                
+                <div class="bio-tags">
+                    <span class="bio-tag active">📸 Street Photographer</span>
+                    <span class="bio-tag active">💻 Developer</span>
+                    <span class="bio-tag">🏍️ Sport Photography</span>
+                    <span class="bio-tag">🌆 Makassar</span>
+                    <span class="bio-tag">📷 Fujifilm X-S20</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALERI -->
+<section id="galeri" style="background: var(--bg);">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 48px;">
+            <span class="section-label">Galeri</span>
+            <h2 class="section-title">Karya Saya di Jalanan</h2>
+        </div>
+        
+        <div class="gallery-intro">
+            <p>
+                Foto-foto di bawah adalah momen yang saya abadikan dari jalanan Makassar. 
+                Setiap foto punya cerita. Setiap momen punya jiwa.
+            </p>
+        </div>
+        
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Foto akan di-load dari folder galeri/ -->
+            <div class="gallery-empty" id="galleryEmpty">
+                <div class="icon">📸</div>
+                <div style="font-weight: 700; margin-bottom: 8px; color: var(--text);">Galeri Belum Diisi</div>
+                <div>Foto-foto akan tampil di sini.</div>
+            </div>
+        </div>
+        
+        <div class="upload-cta">
+            <h3>📤 Mau Fotonya Dipajang?</h3>
+            <p>
+                Kirim foto Anda via WhatsApp untuk dipajang di galeri ini. 
+                Sertakan nama & lokasi foto.
+            </p>
+            <a href="https://wa.me/62895622222140?text=Halo,%20saya%20mau%20kirim%20foto%20untuk%20galeri" class="btn btn-primary">
+                💬 Kirim Foto via WhatsApp
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- MODAL GALERI -->
+<div class="modal-overlay" id="photoModal" onclick="if(event.target===this) closePhotoModal()">
+    <div class="modal" style="max-width: 900px; padding: 0; background: #000;">
+        <button class="modal-close" onclick="closePhotoModal()" style="z-index: 10;">✕</button>
+        <img id="photoModalImg" src="" alt="" style="width: 100%; display: block; border-radius: 20px;">
+        <div style="padding: 20px 24px; background: var(--card); border-radius: 0 0 20px 20px;">
+            <div id="photoModalTitle" style="font-weight: 700; font-size: 16px;"></div>
+            <div id="photoModalDesc" style="color: var(--text2); font-size: 13px; margin-top: 4px;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- DISCLAIMER -->
+<section style="padding: 40px 0 0;">
+    <div class="container">
+        <div style="
+            background: linear-gradient(135deg, rgba(250,180,0,0.08), rgba(250,150,0,0.04));
+            border: 1px solid rgba(250,180,0,0.3);
+            border-radius: 16px;
+            padding: 24px 28px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        ">
+            <div style="font-size: 28px; flex-shrink: 0;">⚠️</div>
+            <div>
+                <div style="font-weight: 800; font-size: 15px; color: #faf; margin-bottom: 8px;">
+                    PENTING — Bukan Afiliasi Resmi
+                </div>
+                <p style="font-size: 13px; color: var(--text2); line-height: 1.7; margin: 0;">
+                    <strong style="color: var(--text);">ADAKAHPHOTOproject</strong> adalah 
+                    <strong style="color: #fa4;">alat bantu upload foto independen</strong> yang 
+                    dibuat oleh fotografer untuk fotografer. Aplikasi ini 
+                    <strong style="color: #fa4;">BUKAN bagian dari</strong>, 
+                    <strong style="color: #fa4;">tidak berafiliasi dengan</strong>, dan 
+                    <strong style="color: #fa4;">tidak disponsori oleh</strong> platform 
+                    penyimpanan foto manapun. Aplikasi ini hanya membantu 
+                    <strong style="color: var(--text);">mempercepat proses upload</strong> 
+                    foto Anda — dari puluhan, ratusan, hingga ratusan ribu file.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATUS VERSI -->
+<section id="status" style="padding: 40px 0 0;">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 32px;">
+            <span class="section-label">Status</span>
+            <h2 class="section-title">Status Versi</h2>
+            <p style="color: var(--text2); max-width: 600px; margin: 0 auto; font-size: 15px;">
+                Aplikasi ini masih dalam pengembangan aktif. Berikut status versi terkini:
+            </p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto;">
+            
+            <!-- INTEL -->
+            <div style="
+                background: linear-gradient(135deg, rgba(0,230,118,0.08), rgba(0,200,83,0.03));
+                border: 2px solid rgba(0,230,118,0.4);
+                border-radius: 16px;
+                padding: 24px;
+                position: relative;
+                overflow: hidden;
+            ">
+                <div style="position: absolute; top: 16px; right: 16px; font-size: 12px; background: var(--accent); color: #000; padding: 4px 10px; border-radius: 100px; font-weight: 800; letter-spacing: 0.05em;">
+                    ✅ STABIL
+                </div>
+                <div style="font-size: 32px; margin-bottom: 12px;">💻</div>
+                <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text);">
+                    macOS Intel
+                </h3>
+                <p style="font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 12px;">
+                    Sudah <strong style="color: var(--accent);">100% aman & stabil</strong>. 
+                    Diuji di MacBook Pro/Air 2014, macOS Monterey ke atas.
+                </p>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 12px; color: var(--text2);">
+                    <li style="padding: 4px 0 4px 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: var(--accent); font-weight: 800;">✓</span>
+                        Upload 500+ file/menit
+                    </li>
+                    <li style="padding: 4px 0 4px 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: var(--accent); font-weight: 800;">✓</span>
+                        Adaptive Concurrent
+                    </li>
+                    <li style="padding: 4px 0 4px 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: var(--accent); font-weight: 800;">✓</span>
+                        Auto-Retry 3 Level
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- M1+ -->
+            <div style="
+                background: linear-gradient(135deg, rgba(250,180,0,0.08), rgba(250,150,0,0.03));
+                border: 2px solid rgba(250,180,0,0.4);
+                border-radius: 16px;
+                padding: 24px;
+                position: relative;
+                overflow: hidden;
+            ">
+                <div style="position: absolute; top: 16px; right: 16px; font-size: 12px; background: #fa4; color: #000; padding: 4px 10px; border-radius: 100px; font-weight: 800; letter-spacing: 0.05em;">
+                    ⏳ TUNGGU
+                </div>
+                <div style="font-size: 32px; margin-bottom: 12px;">⚡</div>
+                <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text);">
+                    macOS M1 / M2 / M3
+                </h3>
+                <p style="font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 12px;">
+                    Versi untuk chip Apple Silicon <strong style="color: #fa4;">masih dalam pengembangan</strong>. 
+                    Menunggu update terbaru dari developer.
+                </p>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 12px; color: var(--text2);">
+                    <li style="padding: 4px 0 4px 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #fa4; font-weight: 800;">⏳</span>
+                        Build sedang disiapkan
+                    </li>
+                    <li style="padding: 4px 0 4px 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #fa4; font-weight: 800;">⏳</span>
+                        Estimasi: segera hadir
+                    </li>
+                    <li style="padding: 4px 0 4px 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #fa4; font-weight: 800;">⏳</span>
+                        Hubungi owner untuk info
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 32px; font-size: 13px; color: var(--text2); max-width: 600px; margin-left: auto; margin-right: auto;">
+            💡 <strong style="color: var(--accent);">Pengembangan berkelanjutan</strong> — 
+            akan ada update fitur, perbaikan bug, dan penyempurnaan di versi berikutnya.
+        </p>
+    </div>
+</section>
+
+<!-- PENGEMBANGAN -->
+<section style="padding: 40px 0 0;">
+    <div class="container">
+        <div style="
+            background: linear-gradient(135deg, rgba(0,200,255,0.08), rgba(0,150,255,0.03));
+            border: 1px solid rgba(0,200,255,0.3);
+            border-radius: 16px;
+            padding: 28px 32px;
+            text-align: center;
+        ">
+            <div style="font-size: 40px; margin-bottom: 12px;">🚧</div>
+            <h3 style="font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 8px;">
+                Aplikasi Masih Dalam Pengembangan
+            </h3>
+            <p style="font-size: 14px; color: var(--text2); line-height: 1.7; max-width: 600px; margin: 0 auto 20px;">
+                Versi <strong style="color: var(--accent);">Intel sudah aman</strong> untuk dipakai sehari-hari. 
+                Untuk <strong style="color: #fa4;">Mac terbaru (M1 ke atas)</strong> masih menunggu update terbaru.
+                Akan ada fitur & perbaikan berikutnya.
+            </p>
+            
+            <div style="display: inline-block; padding: 12px 24px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.3); border-radius: 12px; margin-top: 8px;">
+                <div style="font-size: 11px; color: var(--text2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px;">Komunikasi dengan Owner</div>
+                <div style="font-size: 14px; font-weight: 700; color: var(--text);">
+                    💬 WA: <a href="https://wa.me/62895622222140" style="color: var(--accent); text-decoration: none;">0895-6222-22140</a>
+                </div>
+                <div style="font-size: 14px; font-weight: 700; color: var(--text); margin-top: 4px;">
+                    📷 IG: <a href="https://instagram.com/adakahphoto" style="color: var(--accent); text-decoration: none;">@adakahphoto</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="fitur">
+    <div class="container">
+        <span class="section-label">Fitur</span>
+        <h2 class="section-title">Kenapa ADAKAHPHOTO?</h2>
+        <p class="section-sub">Dibuat khusus untuk fotografer yang butuh upload cepat & stabil.</p>
+        
+        <div class="features-grid">
+            <div class="feature">
+                <div class="icon">⚡</div>
+                <h3>Adaptive Concurrent</h3>
+                <p>Concurrent naik-turun otomatis sesuai performa server & Mac. Hemat resource, stabil.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🚀</div>
+                <h3>Fastscan 513×</h3>
+                <p>Scan 1000 file dalam 0.4 detik. Signature nama+waktu+ukuran.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🔁</div>
+                <h3>Auto-Retry 3 Level</h3>
+                <p>Retry 3× saat upload, batch retry, dan startup check. File gagal otomatis diulang.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">📦</div>
+                <h3>Anti-Duplikat MD5</h3>
+                <p>File yang sudah di-upload tidak akan di-upload ulang. Hemat waktu & bandwidth.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🎨</div>
+                <h3>Rotate & Watermark</h3>
+                <p>Auto-orient EXIF, watermark, mirror, rotate. Foto otomatis rapi.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🌐</div>
+                <h3>Multi-Folder</h3>
+                <p>Tambah beberapa folder sekaligus. Batch upload dari SD card, Desktop, dll.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="harga" style="background: var(--bg2);">
+    <div class="container">
+        <span class="section-label">Harga</span>
+        <h2 class="section-title">Pilih Paket Anda</h2>
+        <p class="section-sub">Semua paket sudah termasuk update gratis & support via WhatsApp.</p>
+        
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="durasi">1 Bulan</div>
+                <div class="harga">Rp 150K</div>
+                <div class="kode">Kode: M1</div>
+            </div>
+            <div class="price-card">
+                <div class="durasi">3 Bulan</div>
+                <div class="harga">Rp 400K</div>
+                <div class="kode">Kode: M3</div>
+            </div>
+            <div class="price-card">
+                <div class="durasi">6 Bulan</div>
+                <div class="harga">Rp 800K</div>
+                <div class="kode">Kode: M6</div>
+            </div>
+            <div class="price-card">
+                <div class="durasi">1 Tahun</div>
+                <div class="harga">Rp 1,3JT</div>
+                <div class="kode">Kode: Y1</div>
+            </div>
+            <div class="price-card highlight">
+                <div class="badge">BEST VALUE</div>
+                <div class="durasi">Lifetime</div>
+                <div class="harga">Rp 2,5JT</div>
+                <div class="kode">Kode: MA</div>
+            </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 40px; color: var(--text2); font-size: 14px;">
+            Transfer ke <b style="color: var(--accent);">Bank Danamon 003612083836</b> a/n ADAKAHPHOTO
+            <br>Kirim bukti transfer via WhatsApp untuk dapat kode license.
+        </p>
+    </div>
+</section>
+
+<section id="download">
+    <div class="container">
+        <span class="section-label">Download</span>
+        <h2 class="section-title">Mulai Sekarang</h2>
+        <p class="section-sub">Download trial gratis atau beli PRO untuk unlock semua fitur.</p>
+        
+        <div class="download-grid">
+            <div class="dl-card">
+                <h3>🎁 Trial Version</h3>
+                <p>Gratis. Fitur lengkap dengan batasan waktu.</p>
+                <a href="https://github.com/nananglamattiro/ADAKAHPHOTOproject/releases/latest">
+                    ⬇️ Download Trial
+                </a>
+            </div>
+            <div class="dl-card">
+                <h3>💎 PRO Version</h3>
+                <p>Unlock semua fitur dengan license.</p>
+                <a href="https://wa.me/62895622222140?text=Halo,%20saya%20mau%20beli%20ADAKAHPHOTO%20PRO">
+                    💬 Beli via WA
+                </a>
+            </div>
+            <div class="dl-card">
+                <h3>📖 Panduan</h3>
+                <p>Cara pakai lengkap untuk user baru.</p>
+                <a href="https://github.com/nananglamattiro/ADAKAHPHOTOproject#readme">
+                    📖 Baca Docs
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="kontak" style="background: var(--bg2);">
+    <div class="container">
+        <div class="kontak-box">
+            <h3>📞 Butuh Bantuan?</h3>
+            <p>Hubungi kami untuk support, pembelian, atau pertanyaan.</p>
+            <div class="kontak-btns">
+                <a href="https://wa.me/62895622222140" class="kontak-btn wa">
+                    💬 WhatsApp: 0895-6222-22140
+                </a>
+                <a href="https://instagram.com/adakahphoto" class="kontak-btn ig">
+                    📷 Instagram: @adakahphoto
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p style="margin-bottom: 12px;">
+            <strong style="color: var(--text);">© 2026 ADAKAHPHOTOproject</strong> · Nanang Lamattiro
+        </p>
+        <p style="font-size: 12px; color: var(--text2); margin-bottom: 12px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Aplikasi ini adalah alat bantu upload foto independen. 
+            Tidak berafiliasi dengan, disponsori oleh, atau bagian dari 
+            platform penyimpanan foto manapun.
+        </p>
+        <p style="margin-top: 8px;">
+            <a href="https://github.com/nananglamattiro/ADAKAHPHOTOproject">GitHub</a> · 
+            Made with ⚡ in Makassar, Indonesia
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
